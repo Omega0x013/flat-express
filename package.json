@@ -1,0 +1,19 @@
+{
+  "name": "flat-express",
+  "version": "1.0.0",
+  "description": "Small Express wrapper for small servers",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Omega0x013/flat-express.git"
+  },
+  "author": "Alexander Bielby",
+  "license": "MPL-2.0",
+  "bugs": {
+    "url": "https://github.com/Omega0x013/flat-express/issues"
+  },
+  "homepage": "https://github.com/Omega0x013/flat-express#readme"
+}
