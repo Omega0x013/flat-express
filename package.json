@@ -1,5 +1,5 @@
 {
-  "name": "flat-express",
+  "name": "@omega0x013/flat-express",
   "version": "1.0.0",
   "description": "Small Express wrapper for small servers",
   "main": "index.js",
@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Omega0x013/flat-express/issues"
   },
-  "homepage": "https://github.com/Omega0x013/flat-express#readme"
+  "homepage": "https://github.com/Omega0x013/flat-express#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
