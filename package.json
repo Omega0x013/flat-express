@@ -1,8 +1,9 @@
 {
   "name": "@omega0x013/flat-express",
-  "version": "1.0.0",
-  "description": "Small Express wrapper for small servers",
+  "version": "1.0.1",
+  "description": "Small Express wrapper for quick prototyping",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -12,21 +12,22 @@ const r405 = (_, res) => res.sendStatus(405);
  * {get, head, post, put, delete, connect, options, trace, patch}
  * ```
  * 
- * @param {any} app
  * @param {any} routes Map of `[String | RegExp]: Object`. The properties of the object listed above are used as route handlers, duplicates are ignored.
- */
-module.exports = function flat(app, routes) {
+ * @returns {Router} Router object
+*/
+export default function flat(routes) {
     // This has no safety checks on purpose
+    let router = require('express').Router();
     for (let [path, view] of Object.entries(routes)) {
-        app.route(path)
-            .get(view['get'] || r405)
-            .head(view['head'] || r405)
-            .post(view['post'] || r405)
-            .put(view['put'] || r405)
-            .delete(view['delete'] || r405)
-            .connect(view['connect'] || r405)
-            .options(view['options'] || r405)
-            .trace(view['trace'] || r405)
-            .patch(view['patch'] || r405);
+        router.get      (path, view['get']      || r405);
+        router.head     (path, view['head']     || r405);
+        router.post     (path, view['post']     || r405);
+        router.put      (path, view['put']      || r405);
+        router.delete   (path, view['delete']   || r405);
+        router.connect  (path, view['connect']  || r405);
+        router.options  (path, view['options']  || r405);
+        router.trace    (path, view['trace']    || r405);
+        router.patch    (path, view['patch']    || r405);
     }
+    return router;
 }
