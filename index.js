@@ -33,8 +33,6 @@ export default function flat(routes) {
     // This has no safety checks on purpose
     let router = express.Router();
     for (let [path, view] of Object.entries(routes)) {
-        console.log(view);
-        console.log(typeof view);
         if (typeof view === 'string') view = file(view);
         router.get      (path, view['get']      || r405);
         router.head     (path, view['head']     || r405);
