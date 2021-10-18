@@ -25,6 +25,7 @@ flat(app, { // you can mix and match methods
         post: (req, res) => res.end("<h1>Home!</h1>")
     },
     "/2": example2, // this exports matching methods
-    "/err": {} // leave it empty and everything will be a 405 (method not allowed)
+    "/err": {}, // leave it empty and everything will be a 405 (method not allowed)
+    "/reroute": "/home" // use a string to fill the GET route with a 302 redirect
 });
 ```
