@@ -26,6 +26,6 @@ flat(app, { // you can mix and match methods
     },
     "/2": example2, // this exports matching methods
     "/err": {}, // leave it empty and everything will be a 405 (method not allowed)
-    "/reroute": "/home" // use a string to fill the GET route with a 302 redirect
+    "/reroute": "/index.js" // GET route for a file
 });
 ```
