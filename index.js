@@ -6,7 +6,7 @@ import express from "express";
 import pathm from "path"; // path-module
 
 /**
- * Takes a set of routes and mounts them to your express app.
+ * Takes a set of routes and produces an express Router object.
  *
  * ```js
  * // HTTP method names (keys)
