@@ -3,47 +3,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import express from "express";
-import pathm from "path"; // path-module
 
 /**
- * Takes a set of routes and produces an express Router object.
- *
- * ```js
- * // HTTP method names (keys)
- * {get, head, post, put, delete, connect, options, trace, patch}
- * ```
- *
- * @param routes Map of `[String]: [Object | String]`. The properties of
-   the object listed above are used as route handlers, duplicates are ignored.
-   A string may be used which creates a GET that reads from a path.
- * @returns {Router} Router object
-*/
-
+ * Flat creates a new Router object for use with express. It accepts:
+ * 
+ * 1. `string` - Strings are interpreted as file paths. A `sendFile` route is constructed from the path.
+ * 2. `Router` - Other routers can be mounted to paths within the router.
+ * 3. `object` - The objective of flat is to support route creation
+ * 
+ * @param {string | express.Router | object} routes The route structure object.
+ * @returns {express.Router}
+ */
 export default function flat(routes) {
-  let router = express.Router();
-  for (let [path, view] of Object.entries(routes)) {
-    if (typeof view === "String") {
-      router.get((_, res) => res.sendFile(pathm.join(pathm.resolve() + view)));
-    } else {
-      for (
-        let method of [
-          "get",
-          "head",
-          "post",
-          "put",
-          "delete",
-          "connect",
-          "options",
-          "trace",
-          "patch",
-        ]
-      ) {
-        router[method]?.call(
-          this,
-          view[method] || ((_, res) => res.sendStatus(405)),
-        );
-      }
-    }
-  }
-  return router;
+
 }
