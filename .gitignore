@@ -2,3 +2,4 @@ node_modules
 *.txt
 *.md
 package-lock.json
+test.js
