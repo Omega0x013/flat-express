@@ -5,8 +5,20 @@
 import express from "express";
 import path from "path";
 
+const METHODS = [
+  "get",
+  "head",
+  "post",
+  "put",
+  "delete",
+  "connect",
+  "options",
+  "trace",
+  "patch",
+];
+
 /**
- * @param {string | express.Router | object} routes The route structure object.
+ * @param {object} routes The route structure object.
  * @returns {express.Router}
  *
  * 1. `string` - Strings are interpreted as file paths. A `sendFile` route is
@@ -16,31 +28,36 @@ import path from "path";
  * maps from objects:
  *
  * ```js
- * app.use(flat({
- *     "/": "index.html",
- *     "/hello": {
- *         get: (req, res) => res.end("Hello World!"),
- *         post: function(req, res) {res.end("Hi")}
- *     }
- * }));
+ * let router = flat({
+ * "/":
+ *   "index.html",           // You can statically serve a file using a filename
+ *
+ * "/hello": (req, res) =>   // Or you could bind just the GET route for a path
+ *   res.end("Hello World!"),// by using a function.
+ *
+ * "/greet": {               // And finally you could bind a whole set of
+ *   "GET": (req, res) =>    // methods to a single route, by placing them into
+ *     res.end("Greetings"), // an object. 
+ *   "POST": ...             // In an object like this one, each value must be
+ *   "DELETE": ...           // a function.
+ * }
+ * })
  * ```
  */
 export default function flat(routes) {
   let router = express.Router();
   for (let [route, view] of Object.entries(routes)) {
     let handler = {};
-    // console.log(`${route} (${typeof view}): ${view}`);
     switch (typeof view) {
       case "string":
         /**
          * Load a local file from disk and send it directly
-         * Safety warning: dot files may be accessed, so don't use
+         * Safety warning: dot files may be accessed, so don't expose
          */
         handler["get"] = (route, (_, res) =>
           res.sendFile(path.join(path.resolve() + view), {
             dotfiles: "allow",
           }));
-        console.log(path.join(path.resolve() + view));
         break;
       case "function":
         /**
@@ -54,43 +71,24 @@ export default function flat(routes) {
           handler["get"] = view;
         }
         break;
-      default:
+      case "object":
         /**
          * We expect objects to be routemaps, and thus their keys will be added
          * to the handler
          */
         handler = Object.fromEntries(
           Object.entries(view).filter((e) =>
-            [
-              "get",
-              "head",
-              "post",
-              "put",
-              "delete",
-              "connect",
-              "options",
-              "trace",
-              "patch",
-            ].includes(e[0])
+            METHODS.includes(e[0])
           ),
         );
-        console.log(handler);
+      default:
+        console.error(`Flat-Express: Invalid view datatype found in route '${route}'`);
     }
     /**
      * Formulate the handler into router functions
      */
     for (
-      let method of [
-        "get",
-        "head",
-        "post",
-        "put",
-        "delete",
-        "connect",
-        "options",
-        "trace",
-        "patch",
-      ]
+      let method of METHODS
     ) {
       router[method]?.call(
         router,

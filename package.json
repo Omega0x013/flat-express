@@ -1,6 +1,6 @@
 {
   "name": "@omega0x013/flat-express",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Small Express wrapper for quick prototyping",
   "main": "index.js",
   "type": "module",
